@@ -1,0 +1,26 @@
+appId: com.mailpulse.app
+productName: MailPulse
+directories:
+  output: release
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  - '!{README.md,REQUIREMENTS.md,IDEA.md,ui-mockup.html,config.json}'
+  - '!scripts/*'
+  - '!.github/*'
+  - '!.gitignore'
+asar: true
+mac:
+  target:
+    - dmg
+    - zip
+  category: public.app-category.productivity
+win:
+  target:
+    - nsis
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true

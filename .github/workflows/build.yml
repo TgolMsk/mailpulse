@@ -32,3 +32,46 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+  package:
+    needs: build
+    strategy:
+      matrix:
+        include:
+          - os: macos-latest
+            script: build:mac
+            artifact: mac
+          - os: windows-latest
+            script: build:win
+            artifact: win
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Package
+        run: pnpm ${{ matrix.script }}
+        env:
+          # 无证书签名环境，跳过签名以避免 CI 卡住
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mailpulse-${{ matrix.artifact }}
+          path: |
+            release/*.dmg
+            release/*.zip
+            release/*.exe
+          if-no-files-found: ignore

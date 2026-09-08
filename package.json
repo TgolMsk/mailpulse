@@ -1,7 +1,7 @@
 {
   "name": "mailpulse",
   "version": "0.1.0",
-  "description": "邮件集成系统 — AI 提取邮件内容推送到 Telegram（macOS 桌面客户端）",
+  "description": "邮件集成系统 — AI 提取邮件内容推送到 Telegram（macOS/Windows 桌面客户端）",
   "main": "./out/main/index.js",
   "license": "MIT",
   "scripts": {
@@ -10,14 +10,14 @@
     "start": "electron-vite preview",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
-    "typecheck": "npm run typecheck:node && npm run typecheck:web"
+    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "build:mac": "electron-vite build && electron-builder --mac",
+    "build:win": "electron-vite build && electron-builder --win"
   },
   "dependencies": {
     "imapflow": "^2.0.0",
     "mailparser": "^3.9.23",
-    "openai": "^7.10.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "openai": "^7.10.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -27,7 +27,10 @@
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^5.2.0",
     "electron": "^44.2.0",
+    "electron-builder": "^26.15.3",
     "electron-vite": "^5.0.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^7.3.6"
