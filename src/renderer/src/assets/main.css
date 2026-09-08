@@ -1,19 +1,19 @@
 @import 'tailwindcss';
 
 :root {
-  --bg: #f5f4e2;
-  --card: #fdfcf3;
-  --ink: #183018;
-  --muted: #a1967e;
-  --accent: #f07848;
-  --sage: #486048;
-  --gray: #9d9d9d;
-  --peach: #faddd1;
-  --blue: #d1e3fa;
-  --mint: #d1faf0;
-  --lime: #ebfad1;
-  --lilac: #e5d1fa;
-  --line: rgba(161, 150, 126, 0.28);
+  --bg: #0a0a18;
+  --card: #14142a;
+  --ink: #e8e8f8;
+  --muted: #8a8aa8;
+  --accent: #5b8cff;
+  --sage: #4a6cf7;
+  --gray: #6a6a8a;
+  --peach: #1a1530;
+  --blue: #151a30;
+  --mint: #15302a;
+  --lime: #152a1a;
+  --lilac: #221a30;
+  --line: rgba(120, 140, 200, 0.16);
 }
 
 * {
@@ -47,8 +47,8 @@ body {
 .side {
   width: 236px;
   flex: none;
-  background: var(--ink);
-  color: var(--bg);
+  background: #06060f;
+  color: var(--ink);
   padding: 26px 18px;
   display: flex;
   flex-direction: column;
@@ -106,9 +106,9 @@ body {
   width: 22px;
   height: 22px;
   border-radius: 6px;
-  border: 1px solid rgba(245, 244, 226, 0.25);
+  border: 1px solid rgba(200, 210, 255, 0.25);
   background: transparent;
-  color: var(--bg);
+  color: var(--ink);
   font-size: 14px;
   line-height: 1;
   cursor: pointer;
@@ -118,7 +118,7 @@ body {
 }
 
 .add-btn:hover {
-  background: rgba(245, 244, 226, 0.15);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .acct {
@@ -133,11 +133,11 @@ body {
 }
 
 .acct.active {
-  background: rgba(245, 244, 226, 0.12);
+  background: rgba(91, 140, 255, 0.15);
 }
 
 .acct:hover {
-  background: rgba(245, 244, 226, 0.07);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .acct .ico {
@@ -187,7 +187,7 @@ body {
 }
 
 .side .foot:hover {
-  background: rgba(245, 244, 226, 0.07);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .side .foot span {
@@ -228,8 +228,8 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #607860;
-  box-shadow: 0 0 0 3px rgba(96, 120, 96, 0.18);
+  background: #3dd6a0;
+  box-shadow: 0 0 0 3px rgba(61, 214, 160, 0.22);
 }
 
 .subline {
@@ -315,7 +315,7 @@ body {
 
 .summary {
   font-size: 13px;
-  color: #4a4433;
+  color: #b8b8d0;
   line-height: 1.55;
   margin-bottom: 10px;
 }
@@ -335,37 +335,37 @@ body {
 
 .t-cat {
   background: var(--blue);
-  color: #1c3a5e;
+  color: #9cc4ff;
 }
 
 .t-cat.fin {
   background: var(--peach);
-  color: #7c3a1c;
+  color: #c9b8ff;
 }
 
 .t-cat.sched {
   background: var(--lilac);
-  color: #4a2a6e;
+  color: #b8a0ff;
 }
 
 .t-cat.notice {
   background: var(--lime);
-  color: #3c5a1c;
+  color: #7fdba0;
 }
 
 .t-urg {
-  background: var(--accent);
+  background: #e0455a;
   color: #fff;
 }
 
 .t-mid {
-  background: #f4c89c;
-  color: #7c4a1c;
+  background: #3a2a15;
+  color: #ffce8a;
 }
 
 .t-low {
   background: var(--mint);
-  color: #1c5a44;
+  color: #6fdbb0;
 }
 
 .t-item {
@@ -409,7 +409,7 @@ body {
 
 .error {
   background: var(--peach);
-  color: #7c3a1c;
+  color: #ffb89c;
   border: 1px solid rgba(240, 120, 72, 0.3);
   border-radius: 12px;
   padding: 10px 14px;
@@ -514,7 +514,7 @@ body {
 
 .field span {
   font-size: 12.5px;
-  color: var(--brown, #486048);
+  color: var(--sage);
   font-weight: 600;
 }
 
@@ -576,7 +576,7 @@ button.ghost.danger {
 
 .msg {
   background: var(--mint);
-  color: #1c5a44;
+  color: #7fdba0;
   border-radius: 10px;
   padding: 10px 14px;
   font-size: 12.5px;
@@ -643,7 +643,7 @@ button.ghost.danger {
 
 .hint {
   background: var(--peach);
-  color: #7c3a1c;
+  color: #ffb89c;
   border-radius: 10px;
   padding: 12px 14px;
   font-size: 12.5px;

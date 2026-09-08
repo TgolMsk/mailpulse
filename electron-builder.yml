@@ -1,6 +1,7 @@
 appId: com.mailpulse.app
 productName: MailPulse
 directories:
+  buildResources: build
   output: release
 files:
   - '!**/.vscode/*'

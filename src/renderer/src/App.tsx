@@ -69,7 +69,7 @@ function toMailItem(m: StoredMail): MailItem {
     category: ex ? mapCategory(ex.category) : { label: '邮件', kind: 'notice' },
     urgency: ex ? mapUrgency(ex.urgency) : { label: '待处理', kind: 'low' },
     extras,
-    avatar: { emoji: '📧', bg: '#486048' }
+    avatar: { emoji: '📧', bg: '#4a6cf7' }
   }
 }
 
