@@ -75,3 +75,30 @@ jobs:
             release/*.zip
             release/*.exe
           if-no-files-found: ignore
+
+  release:
+    needs: package
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: mailpulse-*
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v0.1.0-$(date +%Y%m%d%H%M%S)"
+          gh release create "$TAG" \
+            artifacts/*.dmg \
+            artifacts/*.zip \
+            artifacts/*.exe \
+            --repo "${{ github.repository }}" \
+            --title "MailPulse $TAG" \
+            --notes "自动构建发布：macOS（dmg/zip）+ Windows（exe）。" \
+            --latest
