@@ -14,7 +14,8 @@ function createWindow(): void {
     minHeight: 640,
     show: false,
     autoHideMenuBar: true,
-    titleBarStyle: 'hiddenInset',
+    // macOS 沉浸式标题栏；Windows/Linux 用系统默认标题栏
+    ...(process.platform === 'darwin' ? { titleBarStyle: 'hiddenInset' as const } : {}),
     backgroundColor: '#F5F4E2',
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
