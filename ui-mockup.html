@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MailPulse — AI 邮件助手</title>
+<style>
+  :root{
+    --bg:#F5F4E2; --card:#FDFCF3; --ink:#183018; --muted:#A1967E;
+    --accent:#F07848; --sage:#486048; --gray:#9D9D9D;
+    --peach:#FADDD1; --blue:#D1E3FA; --mint:#D1FAF0; --lime:#EBFAD1; --lilac:#E5D1FA;
+    --line:rgba(161,150,126,.28);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC",sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  body{width:960px;}
+  .app{display:flex; height:640px; border:1px solid var(--line); border-radius:24px; overflow:hidden;
+    background:var(--bg); box-shadow:0 24px 60px -30px rgba(24,48,24,.35);}
+
+  /* Sidebar */
+  .side{width:236px; background:var(--ink); color:var(--bg); padding:26px 18px; display:flex; flex-direction:column;}
+  .logo{display:flex; align-items:center; gap:10px; padding:0 8px; margin-bottom:34px;}
+  .logo .dot{width:26px;height:26px;border-radius:8px;background:var(--accent);display:grid;place-items:center;
+    font-weight:700;color:#fff;font-size:14px;}
+  .logo b{font-size:17px; letter-spacing:.2px;}
+  .logo span{display:block;font-size:11px;color:var(--gray);font-weight:400;}
+  .nav-label{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--gray);padding:0 8px;margin-bottom:10px;}
+  .acct{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;cursor:pointer;margin-bottom:6px;}
+  .acct.active{background:rgba(245,244,226,.12);}
+  .acct:hover{background:rgba(245,244,226,.07);}
+  .acct .ico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:15px;font-weight:700;color:#fff;flex:none;}
+  .acct .name{font-size:13.5px;font-weight:600;}
+  .acct .sub{font-size:11px;color:var(--gray);}
+  .acct .badge{margin-left:auto;font-size:11px;font-weight:700;background:var(--accent);color:#fff;
+    border-radius:999px;padding:1px 7px;}
+  .side .spacer{flex:1;}
+  .side .foot{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;cursor:pointer;}
+  .side .foot:hover{background:rgba(245,244,226,.07);}
+  .side .foot span{font-size:13px;}
+
+  /* Main */
+  .main{flex:1;display:flex;flex-direction:column;padding:28px 30px 0;}
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+  .top h1{font-size:24px;font-weight:700;letter-spacing:-.3px;}
+  .top .sync{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);}
+  .sync .pulse{width:8px;height:8px;border-radius:50%;background:#607860;box-shadow:0 0 0 3px rgba(96,120,96,.18);}
+  .subline{font-size:13px;color:var(--muted);margin-bottom:22px;}
+
+  .feed{overflow:hidden;display:flex;flex-direction:column;gap:14px;padding-bottom:26px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;
+    display:flex;gap:16px;align-items:flex-start;transition:transform .12s ease;}
+  .card:hover{transform:translateY(-2px);box-shadow:0 12px 30px -18px rgba(24,48,24,.25);}
+  .avatar{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-weight:700;font-size:16px;color:#fff;flex:none;}
+  .body{flex:1;min-width:0;}
+  .row1{display:flex;align-items:center;gap:8px;margin-bottom:3px;}
+  .from{font-weight:700;font-size:14px;}
+  .via{font-size:11px;color:var(--gray);}
+  .when{margin-left:auto;font-size:11.5px;color:var(--gray);flex:none;}
+  .subject{font-size:15px;font-weight:650;margin-bottom:6px;letter-spacing:-.2px;}
+  .summary{font-size:13px;color:#4a4433;line-height:1.55;margin-bottom:10px;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;}
+  .t-cat{background:var(--blue);color:#1c3a5e;}
+  .t-cat.fin{background:var(--peach);color:#7c3a1c;}
+  .t-cat.sched{background:var(--lilac);color:#4a2a6e;}
+  .t-cat.notice{background:var(--lime);color:#3c5a1c;}
+  .t-urg{background:var(--accent);color:#fff;}
+  .t-mid{background:#F4C89C;color:#7c4a1c;}
+  .t-low{background:var(--mint);color:#1c5a44;}
+  .t-item{background:transparent;border:1px solid var(--line);color:var(--sage);}
+  .dotsep{color:var(--gray);font-size:10px;}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="logo">
+      <div class="dot">M</div>
+      <div><b>MailPulse</b><span>AI 邮件助手</span></div>
+    </div>
+    <div class="nav-label">邮箱账号</div>
+    <div class="acct active">
+      <div class="ico" style="background:#EA4335">G</div>
+      <div><div class="name">Gmail</div><div class="sub">work@example.com</div></div>
+      <div class="badge">3</div>
+    </div>
+    <div class="acct">
+      <div class="ico" style="background:#1E6FFF">Q</div>
+      <div><div class="name">QQ 邮箱</div><div class="sub">123456@qq.com</div></div>
+      <div class="badge">2</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="foot"><span>⚙️</span><span>设置</span></div>
+  </aside>
+
+  <main class="main">
+    <div class="top">
+      <h1>收件箱</h1>
+      <div class="sync"><span class="pulse"></span>已同步 · 刚刚</div>
+    </div>
+    <div class="subline">AI 已提取 5 封新邮件 · 全部推送到 Telegram</div>
+
+    <div class="feed">
+      <div class="card">
+        <div class="avatar" style="background:#F07848">📄</div>
+        <div class="body">
+          <div class="row1">
+            <span class="from">深圳市水务集团</span><span class="dotsep">·</span><span class="via">QQ 邮箱</span>
+            <span class="when">10 分钟前</span>
+          </div>
+          <div class="subject">2026年8月水费缴费通知</div>
+          <div class="summary">本期水费 128.60 元，请于 9 月 15 日前通过微信或支付宝完成缴费，逾期将产生滞纳金。</div>
+          <div class="tags">
+            <span class="tag t-cat fin">账单</span>
+            <span class="tag t-urg">高优先</span>
+            <span class="tag t-item">💡 待办：15 日前缴费</span>
+            <span class="tag t-item">¥128.60</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="avatar" style="background:#486048">📅</div>
+        <div class="body">
+          <div class="row1">
+            <span class="from">产品评审会</span><span class="dotsep">·</span><span class="via">Gmail</span>
+            <span class="when">32 分钟前</span>
+          </div>
+          <div class="subject">[邀请] 周五 Q3 路线图评审会议</div>
+          <div class="summary">本周五 14:00–15:30 线上会议，讨论 Q3 路线图优先级，请提前审阅附件中的需求文档。</div>
+          <div class="tags">
+            <span class="tag t-cat sched">日程</span>
+            <span class="tag t-mid">中优先</span>
+            <span class="tag t-item">💡 待办：确认参会</span>
+            <span class="tag t-item">周五 14:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="avatar" style="background:#A1967E">📰</div>
+        <div class="body">
+          <div class="row1">
+            <span class="from">GitHub</span><span class="dotsep">·</span><span class="via">Gmail</span>
+            <span class="when">2 小时前</span>
+          </div>
+          <div class="subject">Repository 更新提醒</div>
+          <div class="summary">你关注的仓库 hermes-agent 有 3 个新提交，主要涉及邮件集成模块的优化。</div>
+          <div class="tags">
+            <span class="tag t-cat notice">通知</span>
+            <span class="tag t-low">低优先</span>
+            <span class="tag t-item">3 个新提交</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
